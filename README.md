@@ -1,6 +1,6 @@
-# AutoCAD to Base44 bridge
+## AutoCAD to Base44 bridge
 
-This repository contains a small AutoCAD .NET plug-in that sends selected drawing-object metadata to a Base44 HTTP endpoint. It is intended for a Base44 app that tracks drawings, rooms, measurements, and estimates. It is intentionally endpoint-agnostic so it can work with a Base44 webhook, API route, or an integration endpoint exposed by another plug-in.
+This repository also contains a small AutoCAD .NET plug-in that sends selected drawing-object metadata to a Base44 HTTP endpoint. It is intended for a Base44 app that tracks drawings, rooms, measurements, and estimates. It is intentionally endpoint-agnostic so it can work with a Base44 webhook, API route, or an integration endpoint exposed by another plug-in.
 
 ## Commands
 
@@ -48,3 +48,29 @@ Create a Base44 endpoint that accepts a JSON POST and copy its URL into `BASE44C
 ## Planned companion features
 
 The Base44 specification also covers a review-first drawing assistant, live surrounding-area context layers, and PDF conversion jobs. The assistant should emit explicit vector operations and require approval before modifying a drawing. Map data should remain a separate context layer, with OpenStreetMap attribution or user-supplied Google credentials. For PDF-to-DXF work, prefer AutoCAD's native `PDFIMPORT`; scanned PDFs cannot be treated as accurate vectors without verification.
+
+## Pets workshop
+
+This repository contains the project for three guided workshops to explore various GitHub features. The project is a website for a fictional dog shelter, with a [Flask](https://flask.palletsprojects.com/en/stable/) backend using [SQLAlchemy](https://www.sqlalchemy.org/) and an [Astro](https://astro.build/) frontend using [Tailwind CSS](https://tailwindcss.com/).
+
+The available workshops are:
+
+- **[One hour](./content/1-hour/README.md)** — focused on GitHub Copilot
+- **[Full-day](./content/full-day/README.md)** — a full day-in-the-life of a developer using GitHub for their DevOps processes
+- **[GitHub Actions](./content/github-actions/README.md)** — CI/CD pipelines from running tests to deploying to Azure
+
+## Getting started
+
+> **[Get started learning about development with GitHub!](./content/README.md)**
+
+## License 
+
+This project is licensed under the terms of the MIT open source license. Please refer to the [LICENSE](./LICENSE) for the full terms.
+
+## Maintainers 
+
+You can find the list of maintainers in [CODEOWNERS](./.github/CODEOWNERS).
+
+## Support
+
+This project is provided as-is, and may be updated over time. If you have questions, please open an issue.
