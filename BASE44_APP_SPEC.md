@@ -73,7 +73,7 @@ Track AutoCAD drawings, rooms, measured geometry, estimate line items, vector dr
 
 ## Import behavior
 
-Create a POST endpoint or workflow that accepts the `DrawingPayload` from the AutoCAD plug-in:
+Create a POST backend function named `importDrawingPayload` that accepts the `DrawingPayload` from the AutoCAD plug-in. Configure the secret `AUTOCAD_BRIDGE_API_KEY` in Base44 environment variables and require an exact `Authorization: Bearer <secret>` match before reading the body.
 
 1. Find or create the Drawing by `sourcePath`/`name`.
 2. Update its units and import timestamp.
@@ -81,6 +81,8 @@ Create a POST endpoint or workflow that accepts the `DrawingPayload` from the Au
 4. Never convert coordinates unless the drawing unit is explicitly known.
 5. Do not create rooms or estimate prices automatically from arbitrary entities.
 6. Show an import result with created, updated, skipped, and failed counts.
+
+Return `401` for missing or incorrect bearer credentials, `400` for invalid payloads, and `2xx` only after the import is committed. Do not log the bearer token or persist it in app data.
 
 ## Natural-language vector drawing
 

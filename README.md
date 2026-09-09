@@ -43,7 +43,23 @@ AutoCAD's managed API assemblies are installed with AutoCAD and are not redistri
 
 ## Base44 setup
 
-Create a Base44 endpoint that accepts a JSON POST and copy its URL into `BASE44CONFIG`. If the endpoint requires authentication, enter its API key when prompted. The receiving endpoint should validate the bearer token and treat drawing data as untrusted input.
+Create the Base44 backend function `importDrawingPayload` and copy its deployed endpoint URL into `BASE44CONFIG`. Add a long random value named `AUTOCAD_BRIDGE_API_KEY` under Base44 Settings -> Environment Variables. The function must compare the incoming `Authorization: Bearer <token>` value with that secret before parsing or storing the payload. Enter the same key when `BASE44CONFIG` prompts for the API key; the plug-in stores it in the current user's Windows registry and sends it only over HTTPS.
+
+The OpenAPI importer can use the raw specification at:
+`https://raw.githubusercontent.com/jgelchaar/pets-workshop/jgelchaar-autocad-integration/openapi.yaml`
+After importing it, replace `YOUR_BASE44_FUNCTION_HOST` with the host shown for your Base44 `importDrawingPayload` function.
+
+The endpoint contract is:
+
+- Method: `POST`
+- Header: `Authorization: Bearer <AUTOCAD_BRIDGE_API_KEY>`
+- Header: `Content-Type: application/json`
+- Body: the `DrawingPayload` JSON shown above
+- Success: any `2xx` response
+- Authentication failure: `401`
+- Invalid payload: `400`
+
+Do not commit the key, put it in the repository, or paste it into source files. The receiving function should validate required fields (`eventType`, `drawingName`, `drawingUnits`, and every object handle), enforce a reasonable object-count/body-size limit, and upsert objects by drawing plus AutoCAD handle.
 
 ## Planned companion features
 
