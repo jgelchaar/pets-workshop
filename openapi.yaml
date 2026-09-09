@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: AutoCAD Base44 Drawing Import API
+  version: 1.0.0
+  description: Receives reviewed AutoCAD drawing selections for the Base44 takeoff app.
+servers:
+  - url: https://YOUR_BASE44_FUNCTION_HOST
+    description: Replace with the Base44 host for the importDrawingPayload function.
+paths:
+  /importDrawingPayload:
+    post:
+      operationId: importDrawingPayload
+      summary: Import selected AutoCAD drawing objects
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DrawingPayload'
+      responses:
+        '200':
+          description: Import accepted and processed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResult'
+        '400':
+          description: Invalid drawing payload.
+        '401':
+          description: Missing or invalid bearer token.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: AUTOCAD_BRIDGE_API_KEY
+  schemas:
+    DrawingPayload:
+      type: object
+      required:
+        - eventType
+        - drawingName
+        - drawingUnits
+        - sentAtUtc
+        - objects
+      properties:
+        eventType:
+          type: string
+          example: autocad.selection.created
+        drawingName:
+          type: string
+        drawingUnits:
+          type: string
+          description: AutoCAD INSUNITS value captured at import time.
+        sentAtUtc:
+          type: string
+          format: date-time
+        objects:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/DrawingObject'
+    DrawingObject:
+      type: object
+      required:
+        - handle
+        - entityType
+        - layer
+        - minPoint
+        - maxPoint
+      properties:
+        handle:
+          type: string
+        entityType:
+          type: string
+        layer:
+          type: string
+        minPoint:
+          $ref: '#/components/schemas/Point'
+        maxPoint:
+          $ref: '#/components/schemas/Point'
+    Point:
+      type: object
+      required:
+        - x
+        - y
+        - z
+      properties:
+        x:
+          type: number
+        y:
+          type: number
+        z:
+          type: number
+    ImportResult:
+      type: object
+      required:
+        - drawingName
+        - created
+        - updated
+        - skipped
+        - failed
+      properties:
+        drawingName:
+          type: string
+        created:
+          type: integer
+        updated:
+          type: integer
+        skipped:
+          type: integer
+        failed:
+          type: integer

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <RootNamespace>AutoCadBase44Bridge</RootNamespace>
+    <AssemblyName>AutoCadBase44Bridge</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Set AUTOCAD_INSTALL_DIR to the folder containing AcMgd.dll and AcDbMgd.dll. -->
+    <AutoCadInstallDir Condition="'$(AUTOCAD_INSTALL_DIR)' != ''">$(AUTOCAD_INSTALL_DIR)</AutoCadInstallDir>
+    <AutoCadInstallDir Condition="'$(AUTOCAD_INSTALL_DIR)' == ''">C:\Program Files\Autodesk\AutoCAD 2025</AutoCadInstallDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="AcMgd">
+      <HintPath>$(AutoCadInstallDir)\AcMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcDbMgd">
+      <HintPath>$(AutoCadInstallDir)\AcDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
+</Project>
